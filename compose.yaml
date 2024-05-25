@@ -1,0 +1,24 @@
+version: '3.8'
+
+networks:
+  my_network:
+    driver: bridge
+
+services:
+  ollama:
+    image: my_custom_ollama_image  # Use the custom image
+    container_name: ollama_service
+    ports:
+      - 11434:11434
+    networks:
+      - my_network
+
+  streamlit:
+    image: streamlit_rag:latest
+    container_name: streamlit_service
+    depends_on:
+      - ollama
+    ports:
+      - 8501:8501
+    networks:
+      - my_network
